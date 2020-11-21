@@ -1,6 +1,6 @@
 # Component Specification
 ## Components
-**E-bird Data Cleanup**
+**E-bird Data Cleanup**  
 We use a script to reduce the E-bird sighting dataset from January 2020 to November 2020 in Oregon. For this project we are focusing on permanent Oregon resident species. 
 This script does the following: 
 - Load the data as a pandas dataframe.
@@ -10,7 +10,7 @@ This script does the following:
   - For each entry in the dataframe, if the species matches a resident species in our list, append the sighting to a new pandas dataframe that only contains residents.
   - Save our resident dataframe for analysis.
 
-**Air Quality Data Cleanup**
+**Air Quality Data Cleanup**  
 - For each station and day, calculate the average 24-hour PM2.5 concentration using the hourly data.
 - Create a list of the EPA’s PM2.5 breakpoint table for AQI.
 - From the average PM2.5 concentrations, determine the day’s AQI category.
@@ -18,7 +18,7 @@ This script does the following:
 - Save this dataframe for analysis.
 - An additional dataframe will be created with the average AQI for the state of Oregon for each day of the study period.
 
-**Visualization of Data**
+**Visualization of Data**  
 A variety of interactive maps and plots will be used to visualize the effects of air quality on resident bird sightings in Oregon. These visualizations include:
 - A map of Oregon with shaded regions representing different AQIs as well as icons representing bird sightings (and number of bird sightings) for resident bird species. This map will have a time slider that will allow the user to see how air quality and sightings change from day to day between January 2020 and November 2020. Additionally, it will have the ability to select which bird species the user wants to view.
 - A chart of the number of sightings for various Oregon resident species over time. Icons on this chart will indicate days with AQIs in the Very Unhealthy and Hazardous categories, as a proxy for fire events. For this chart, the sightings and air quality will be grouped by region, and the user will have the option of seeing the data for all of Oregon or selecting just their region of interest from a drop down menu.
@@ -26,7 +26,7 @@ A variety of interactive maps and plots will be used to visualize the effects of
 Python packages used:
 - Plotly
 
-**Web-based application for sharing of visualizations**
+**Web-based application for sharing of visualizations**  
 The interactive visualizations created through plotly will be organized into a dashboard using dash, and this can be shared and embedded using html code.
 
 Python packages used:
@@ -36,7 +36,7 @@ Python packages used:
 **Birder:** 
 A birder who lives in an area that was hard hit by the Oregon wildfires this summer is noticing that she is seeing less American crows this month than usual. She goes onto the Portland Audubon society website and finds the PHOENIX dashboard. She notices that this species disappeared almost completely after the wildfires in her area, but that they are still commonly sighted across Oregon. She feels relieved that it seems like they are returning to her area.
 
-## List of Tasks (in priority order):
+## List of Tasks (in priority order):  
 Week 1
 - Submit software design documents
 - Air Quality data retrieval
