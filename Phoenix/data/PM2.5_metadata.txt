@@ -1,0 +1,20 @@
+All PM2.5 Data starts from 1/1/2020 and goes to 11/28/2020 with some data gaps, listed below. 
+
+For station 21, 23, 39 used average of SensOR PM 2.5 Est Columns.
+
+If there was missing data during a day in a given location, an average was not calculated for that day and is just listed as a missing value (NA). 
+
+Data Gaps: 
+
+No PM 2.5 data for Station 17 until April 30
+No PM 2.5 data for Station 22 until 12 7/21 and after 10 am 10/14
+No PM 2.5 data for Station 23 until 19:00 6/12 and after 18:00 9/7 
+No PM 2.5 data for Station 29 until 14:00 1/5 
+No PM 2.5 data for Station 30 until 12:00 4/21
+No PM 2.5 data for Station 39 until 19:00 6/12
+No PM 2.5 data for Station 40 until 14:00 7/10 and after 12:00 10/15
+No PM 2.5 data for Station 51 until 10:00 5/27
+No PM 2.5 data for Station 53  until 1:00 4/1
+No PM 2.5 data for Station 55  until 12:00q 4/23
+No PM 2.5 data for Station 56 until 6:00 8/21
+No PM 2.5 data for Station 58 until 13:00 4/29
