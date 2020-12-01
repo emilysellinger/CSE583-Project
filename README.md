@@ -1,2 +1,2 @@
-# CSE583-Project
-Capstone project for CSE 583 
+### Ocean's 4 Capstone CSE583 Project
+# Phoenix 
