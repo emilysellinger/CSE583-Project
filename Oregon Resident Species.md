@@ -5,7 +5,7 @@ A full list of Oregon bird species can be found at: https://oregonbirding.org/or
 ##### Family Anatidae
 * Canada Goose
 * Trumpeter Swan
-*	Wood duck
+*	Wood Duck
 *	Northern Shoveler
 *	Gadwell
 *	American Wigeon
@@ -59,7 +59,7 @@ A full list of Oregon bird species can be found at: https://oregonbirding.org/or
 *	American Coot
 #### Order Charadriiformes
 ##### Family Haematopodidae
-*	Black Oysetercatcher
+*	Black Oystercatcher
 ##### Family Charadriinae
 *	Killdeer
 *	Snowy Plover
