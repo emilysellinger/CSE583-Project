@@ -101,4 +101,8 @@ dependencies:
   - tornado=6.1
   - ca-certificates
   - dash
+   - pip:
+    - flake8==3.8.4
+    - pycodestyle==2.6.0
+    - pyflakes==2.2.0
 prefix: /Users/zrand/opt/miniconda3/envs/project_CSE
