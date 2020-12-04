@@ -43,8 +43,8 @@ app.layout = html.Div([
         id='counts-of-categories',)
 ])
 
-# interactive components:
 
+# interactive components:
 @app.callback(
     Output('counts-of-categories', 'figure'),
     Input('sensor-location', 'value'))
