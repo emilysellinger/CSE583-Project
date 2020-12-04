@@ -43,13 +43,13 @@ app.layout = html.Div([
         id='counts-of-categories',)
 ])
 
-#interactive components:
+# interactive components:
 @app.callback(
-    
     Output('counts-of-categories', 'figure'),
     Input('sensor-location', 'value'))
+
+
 def update_graph(sensor_location):
-    
     '''
     Updates graph depending on user input.
     Par = sensor location from dropdown
@@ -59,6 +59,7 @@ def update_graph(sensor_location):
     sub_counts = px.histogram(sub_aq, x="Category")
     sub_counts.update_layout(transition_duration=500)
     return sub_counts
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
