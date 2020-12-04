@@ -2,8 +2,10 @@
 
 adds 1 to the number passed to the function
 """
+
+
 def add_one(number):
-    
-    
+
+
     answer = number + 1
     return(answer)
