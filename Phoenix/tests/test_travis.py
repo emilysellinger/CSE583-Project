@@ -1,5 +1,5 @@
 import unittest
-import code
+from code import travis_test
 
 
 class TestTravis(unittest.TestCase):
