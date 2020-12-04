@@ -44,11 +44,10 @@ app.layout = html.Div([
 ])
 
 # interactive components:
+
 @app.callback(
     Output('counts-of-categories', 'figure'),
     Input('sensor-location', 'value'))
-
-
 def update_graph(sensor_location):
     '''
     Updates graph depending on user input.
