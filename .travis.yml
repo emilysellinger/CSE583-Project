@@ -11,7 +11,6 @@ matrix:
 # what branches should be evaluated
 branches:
     only:
-        - master
         - main
 
 # commands to prepare the conda install - download the latest conda
@@ -32,7 +31,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-    - flake8 codebase
+    - flake8 Phoenix --ignore=E501
 
 # the actual commands to run
 script:

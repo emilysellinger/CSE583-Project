@@ -1,10 +1,13 @@
 import unittest
-from .code import travis_test
+from code import travis_test
+
 
 class TestTravis(unittest.TestCase):
+
     def test_oneshot(self):
         number = 5
-        self.AssertEqual(travis_test.add_one(number),6)
+        self.AssertEqual(travis_test.add_one(number), 6)
 
-if __name__ == '__main__':
-    unittest.main()
+
+suite = unittest.TestLoader().loadTestsFromTestCase(TestTravis)
+_ = unittest.TextTestRunner().run(suite)
