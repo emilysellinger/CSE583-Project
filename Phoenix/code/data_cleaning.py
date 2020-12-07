@@ -43,9 +43,10 @@ lincoln = lincoln.replace(['Benton'], 'Lincoln')
 or_counties = county_aq.append([coos, curry, malheur, morrow, gilliam, wheeler, sherman, hood_river,
                                columbia, clatsop, tillamook, yamhill, polk, lincoln])
 
+
 def assign_aqicat(data):
     aqi_cat = []
-    
+
     for row in data['Avg_PM2.5']:
         if row >= 250.5:
             aqi_cat.append('Hazardous')
@@ -62,7 +63,9 @@ def assign_aqicat(data):
         else:
             aqi_cat.append('NA')
     data['AQI_Category'] = aqi_cat
-    return data  
+    return data
+
 
 assign_aqicat(or_counties)
 or_counties.to_csv("../data/OR_DailyAQ_byCounty.csv")
+
