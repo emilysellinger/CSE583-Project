@@ -31,6 +31,7 @@ TITLE_TEXT = '''
 How have Oregon Bird sightings changed with air quality?
 '''
 # read in the data here:
+
 aq = pd.read_csv(
     'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv'  # noqa
 )
@@ -40,7 +41,7 @@ bird = pd.read_csv(
 
 with urlopen(
             'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson'  # noqa
-            ) as response:
+             ) as response:
     counties = json.load(response)
 
 # subsetting data to relevant months
@@ -70,7 +71,8 @@ app.layout = html.Div([
         value='August'),  # gives you default option
 
     dcc.Graph(
-        id='aq-map'),
+        id='aq-map',
+        style={'width': '90vh', 'height': '70vh'}),
 
     dcc.Slider(
         id='day-slider',
@@ -162,7 +164,7 @@ def display_date_aq(month, day_slider):
     Returns:
         Date text (str): full text of selected date
     """
-    return 'Date: '+str(month)+' '+str(day_slider)+', 2020'
+    return 'Date: ' + str(month) + ' ' + str(day_slider) + ', 2020'
 
     # Bird Count Line Graph
 
