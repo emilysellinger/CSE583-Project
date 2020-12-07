@@ -13,7 +13,7 @@ import json
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input,Output
+from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
@@ -23,80 +23,84 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-#markdown text for throughout the app:
+# markdown text for throughout the app:
+
 TITLE_TEXT = '''
 ### Phoenix
 
 How have Oregon Bird sightings changed with air quality?
 '''
-#read in the data here:
+# read in the data here:
 aq = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv' #noqa
+    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv'  # noqa
 )
 bird = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv' #noqa
+    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv'  # noqa
 )
 
 with urlopen(
-    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson' #noqa
-    ) as response:
+            'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson'  # noqa
+            ) as response:
     counties = json.load(response)
 
-#subsetting data to relevant months
+# subsetting data to relevant months
 aq['Date'] = pd.to_datetime(aq['Date'])
-months = [8,9,10,11]
+months = [8, 9, 10, 11]
 aq = aq.loc[aq['Date'].dt.month.isin(months)]
 
 bird['observation date'] = pd.to_datetime(bird['observation date'])
 bird = bird.loc[bird['observation date'].dt.month.isin(months)]
 
-#categories for dropdowns
+# categories for dropdowns
 common_names = bird['common name'].unique()
 county_names = aq['County'].unique()
-full_months = ['August','September','October','November']
+full_months = ['August', 'September', 'October', 'November']
 
-#configures the style and layout of the app (including headings etc)
+# configures the style and layout of the app (including headings etc)
 app.layout = html.Div([
-    dcc.Markdown(children = TITLE_TEXT),
+    dcc.Markdown(children=TITLE_TEXT),
 
     dcc.Dropdown(
-        id = 'species',
-        options = [{'label': i, 'value': i} for i in common_names],
-        value = 'American Crow'), #gives you default option
+        id='species',
+        options=[{'label': i, 'value': i} for i in common_names],
+        value='American Crow'),  # gives you default option
     dcc.Dropdown(
-        id = 'month',
-        options = [{'label': i, 'value': i} for i in full_months],
-        value = 'August'), #gives you default option
+        id='month',
+        options=[{'label': i, 'value': i} for i in full_months],
+        value='August'),  # gives you default option
 
     dcc.Graph(
         id='aq-map'),
 
-    dcc.Slider(id = 'day-slider',
-        min = 1,
-        max = 31,
-        value = 1,
-        step = 1,
-        marks = {1:'1', 10:'10', 20: '20', 31 : '31'}),
+    dcc.Slider(
+        id='day-slider',
+        min=1,
+        max=31,
+        value=1,
+        step=1,
+        marks={1: '1', 10: '10', 20: '20', 31: '31'}),
 
-    html.Div(id='day-indicator', style={'margin-top': 20, 'margin-bottom': 20}),
+    html.Div(
+        id='day-indicator',
+        style={'margin-top': 20, 'margin-bottom': 20}),
 
     dcc.Dropdown(
-        id = 'county-names',
-        options = [{'label': i, 'value': i} for i in county_names],
-        value = 'Baker'),
+        id='county-names',
+        options=[{'label': i, 'value': i} for i in county_names],
+        value='Baker'),
 
     dcc.Graph(
-        id = 'bird-counts')
+        id='bird-counts')
 ])
 
-#interactive components:
-    ##AQ choropleth map
+
+# interactive components:
+# AQ choropleth map
 @app.callback(
-    Output('aq-map','figure'),
+    Output('aq-map', 'figure'),
     Input('species', 'value'),
     Input('month', 'value'),
     Input('day-slider', 'value'))
-
 def update_aq_graph(species, month, day_slider):
     """
     Creates an air quality choropleth map depending on the species,
@@ -110,35 +114,41 @@ def update_aq_graph(species, month, day_slider):
     Returns:
         Air Quality Choropleth map with bird sightings overlayed
     """
-
     sub_bird = bird.loc[bird['common name'] == species]
 
     sub_aq = subset_date(aq, 'Date', month, day_slider)
 
-    aq_map_choropleth = px.choropleth_mapbox(sub_aq, geojson = counties, featureidkey = 'properties.altname',
-        locations = "County",
-        color = "Avg_PM2.5", hover_name = "County",
-        color_continuous_scale = px.colors.sequential.Turbo, range_color = (0,600),
-        mapbox_style = 'carto-positron', zoom = 5,
-        center = { "lat": 43.81395826303137, "lon": -120.60278690370761},
-        opacity = 0.5,
-        labels = {'Avg_PM2.5': 'Average PM 2.5'}
+    aq_map_choropleth = px.choropleth_mapbox(
+        sub_aq, geojson=counties,
+        featureidkey='properties.altname', locations="County",
+        color="Avg_PM2.5", hover_name="County",
+        color_continuous_scale=px.colors.sequential.Turbo,
+        range_color=(0, 600),
+        mapbox_style='carto-positron', zoom=5,
+        center={"lat": 43.81395826303137, "lon": -120.60278690370761},
+        opacity=0.5,
+        labels={'Avg_PM2.5': 'Average PM 2.5'}
     )
 
     try:
         subset_date(sub_bird, 'observation date', month, day_slider)
 
-        aq_map_scatter = px.scatter_mapbox(sub_bird, lat = 'latitude', lon = 'longitude',
-            size = 'observation count', zoom = 5, color_discrete_sequence = ['#EF553B'],
-            mapbox_style = "carto-positron",
-            center = { "lat": 43.81395826303137, "lon": -120.60278690370761}
+        aq_map_scatter = px.scatter_mapbox(
+            sub_bird, lat='latitude', lon='longitude',
+            size='observation count', zoom=5,
+            color_discrete_sequence=['#EF553B'],
+            mapbox_style="carto-positron",
+            center={"lat": 43.81395826303137, "lon": -120.60278690370761}
         )
         aq_map_choropleth.add_trace(aq_map_scatter.data[0])
 
     except ValueError:
         pass
     return aq_map_choropleth
-    #adding indicator of the day of the month
+
+# adding indicator of the day of the month
+
+
 @app.callback(
     Output('day-indicator', 'children'),
     Input('month', 'value'),
@@ -152,8 +162,9 @@ def display_date_aq(month, day_slider):
     Returns:
         Date text (str): full text of selected date
     """
-    return 'Date: ' + str(month) + ' ' + str(day_slider) + ', 2020'
-    ##Bird Count Line Graph
+    return 'Date: '+str(month)+' '+str(day_slider)+', 2020'
+
+    # Bird Count Line Graph
 
 
 if __name__ == '__main__':
