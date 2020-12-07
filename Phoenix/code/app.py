@@ -1,63 +1,159 @@
-# -*- coding: utf-8 -*-
+"""
+This module encodes a dash app for non-experts to examine
+patterns in bird sightings and air quality in Oregon.
+
+"""
 
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-'''
-Dash app for birder use case
-'''
+from urllib.request import urlopen
+import json
 
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
-import plotly.express as px
+from dash.dependencies import Input,Output
 import pandas as pd
+import plotly.express as px
+
+from app_functions import subset_date
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# markdown text for throughout the app:
+#markdown text for throughout the app:
 TITLE_TEXT = '''
 ### Phoenix
 
 How have Oregon Bird sightings changed with air quality?
 '''
-# read in the data here:
-aq = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Daily_Avg_PM2.5_Location.csv')
+#read in the data here:
+aq = pd.read_csv(
+    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv' #noqa
+)
+bird = pd.read_csv(
+    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv' #noqa
+)
 
-available_locations = aq["Name"].unique()
-# plotly plots go here:
+with urlopen(
+    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson' #noqa
+    ) as response:
+    counties = json.load(response)
 
-# configures the style and layout of the app (including headings etc)
+#subsetting data to relevant months
+aq['Date'] = pd.to_datetime(aq['Date'])
+months = [8,9,10,11]
+aq = aq.loc[aq['Date'].dt.month.isin(months)]
+
+bird['observation date'] = pd.to_datetime(bird['observation date'])
+bird = bird.loc[bird['observation date'].dt.month.isin(months)]
+
+#categories for dropdowns
+common_names = bird['common name'].unique()
+county_names = aq['County'].unique()
+full_months = ['August','September','October','November']
+
+#configures the style and layout of the app (including headings etc)
 app.layout = html.Div([
-    dcc.Markdown(children=TITLE_TEXT),
+    dcc.Markdown(children = TITLE_TEXT),
 
     dcc.Dropdown(
-        id='sensor-location',
-        options=[{'label': i, 'value': i} for i in available_locations],
-        value='Albany Calapooia School'),  # gives you default option
+        id = 'species',
+        options = [{'label': i, 'value': i} for i in common_names],
+        value = 'American Crow'), #gives you default option
+    dcc.Dropdown(
+        id = 'month',
+        options = [{'label': i, 'value': i} for i in full_months],
+        value = 'August'), #gives you default option
 
     dcc.Graph(
-        id='counts-of-categories',)
+        id='aq-map'),
+
+    dcc.Slider(id = 'day-slider',
+        min = 1,
+        max = 31,
+        value = 1,
+        step = 1,
+        marks = {1:'1', 10:'10', 20: '20', 31 : '31'}),
+
+    html.Div(id='day-indicator', style={'margin-top': 20, 'margin-bottom': 20}),
+
+    dcc.Dropdown(
+        id = 'county-names',
+        options = [{'label': i, 'value': i} for i in county_names],
+        value = 'Baker'),
+
+    dcc.Graph(
+        id = 'bird-counts')
 ])
 
-
-# interactive components:
+#interactive components:
+    ##AQ choropleth map
 @app.callback(
-    Output('counts-of-categories', 'figure'),
-    Input('sensor-location', 'value'))
-def update_graph(sensor_location):
-    '''
-    Updates graph depending on user input.
-    Par = sensor location from dropdown
-    Returns figure for that location
-    '''
-    sub_aq = aq[aq.Name == sensor_location]
-    sub_counts = px.histogram(sub_aq, x="Category")
-    sub_counts.update_layout(transition_duration=500)
-    return sub_counts
+    Output('aq-map','figure'),
+    Input('species', 'value'),
+    Input('month', 'value'),
+    Input('day-slider', 'value'))
+
+def update_aq_graph(species, month, day_slider):
+    """
+    Creates an air quality choropleth map depending on the species,
+    month, and day selected in the app. Bird sightings for selected
+    species are plotted as a scatter plot over air quality choropleth.
+
+    Args:
+        species(str): common name selected from dropdown
+        month(str): name of month selected from dropdown
+        day_slider(int): day value from slider
+    Returns:
+        Air Quality Choropleth map with bird sightings overlayed
+    """
+
+    sub_bird = bird.loc[bird['common name'] == species]
+
+    sub_aq = subset_date(aq, 'Date', month, day_slider)
+
+    aq_map_choropleth = px.choropleth_mapbox(sub_aq, geojson = counties, featureidkey = 'properties.altname',
+        locations = "County",
+        color = "Avg_PM2.5", hover_name = "County",
+        color_continuous_scale = px.colors.sequential.Turbo, range_color = (0,600),
+        mapbox_style = 'carto-positron', zoom = 5,
+        center = { "lat": 43.81395826303137, "lon": -120.60278690370761},
+        opacity = 0.5,
+        labels = {'Avg_PM2.5': 'Average PM 2.5'}
+    )
+
+    try:
+        subset_date(sub_bird, 'observation date', month, day_slider)
+
+        aq_map_scatter = px.scatter_mapbox(sub_bird, lat = 'latitude', lon = 'longitude',
+            size = 'observation count', zoom = 5, color_discrete_sequence = ['#EF553B'],
+            mapbox_style = "carto-positron",
+            center = { "lat": 43.81395826303137, "lon": -120.60278690370761}
+        )
+        aq_map_choropleth.add_trace(aq_map_scatter.data[0])
+
+    except ValueError:
+        pass
+    return aq_map_choropleth
+    #adding indicator of the day of the month
+@app.callback(
+    Output('day-indicator', 'children'),
+    Input('month', 'value'),
+    Input('day-slider', 'value'))
+def display_date_aq(month, day_slider):
+    """
+    Displays the date that was selected using text.
+    Args:
+        month(str): selected month from dropdown
+        day_slider(int): selected day from slider
+    Returns:
+        Date text (str): full text of selected date
+    """
+    return 'Date: ' + str(month) + ' ' + str(day_slider) + ', 2020'
+    ##Bird Count Line Graph
 
 
 if __name__ == '__main__':
