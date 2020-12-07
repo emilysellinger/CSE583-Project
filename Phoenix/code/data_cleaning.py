@@ -68,4 +68,3 @@ def assign_aqicat(data):
 
 assign_aqicat(or_counties)
 or_counties.to_csv("../data/OR_DailyAQ_byCounty.csv")
-
