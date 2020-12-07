@@ -6,9 +6,9 @@ Phoenix offers an researchers an intial analysis of the impact of the 2020 Orego
 
 Science communication is a growing priority among researchers. To encourage community engagement, Phoenix also includes a visualization tool to be accessed by recreational birders. If made widely available as an interactive map on a website, birders will be able to use this information to gain a better understanding of how to adjust their practices and get the most out of their experience.
 
-#### Organization
+### Organization
 The project has the following structure:
-<pre>CSE583-project/
+<pre>Phoenix/
   |- README.md
   |- Phoenix/
      |- data/
@@ -38,4 +38,8 @@ The project has the following structure:
   |- Licence.md
   |- environment.yml
 </pre>
-#### How to Use Phoenix
+### How to Use Phoenix
+Researchers should look to our demo jupyter notebook, where you can find a more detailed description of our analysis, as well as accompanying visualizations.Phoenix uses Altair for statistical visualizations, the code for which can be easily adapted for future research.
+For recreational birders, we provide a dash app where you can explore resident species observations and air quaility index (AQI) at several geographic and taxonomic levels.
+To explore the data on your own, clone the repository onto your device and create an environment using the following code:
+<pre>conda env create -f environment.yml</pre>
