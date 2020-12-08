@@ -45,85 +45,94 @@ bird['observation date'] = pd.to_datetime(bird['observation date'])
 bird = bird.loc[bird['observation date'].dt.month.isin(months)]
 
 # categories for dropdowns
-common_names = bird['common name'].unique()
+common_names = sorted(bird['common name'].unique())
 county_names = aq['County'].unique()
 full_months = ['August', 'September', 'October', 'November']
 
 # configures the style and layout of the app (including headings etc)
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(
-        children='PHOENIX',
-        style={
-            'textAlign':'left',
-            'color': colors['text'],
-            'margin-top': 0, 
-            'margin-bottom': 20,
-            'margin-left': 20,
-            'font-weight': 'bold'
-        }
-    ),
+app.layout = html.Div(
+    style={'backgroundColor': colors['background']},
+    children=[
+        html.H1(
+            children='PHOENIX',
+            style={
+                'textAlign': 'left',
+                'color': colors['text'],
+                'margin-top': 0,
+                'margin-bottom': 20,
+                'margin-left': 20,
+                'font-weight': 'bold'
+            }
+        ),
 
-    html.Div(children='How have Oregon bird sightings changed with air quality?', style={
-        'textAlign': 'left',
-        'color': colors['text'],
-        'margin-top': 20, 
-        'margin-bottom': 20,
-        'margin-left': 20,
-        'font-style': 'italic'
+        html.Div(
+            children='How have Oregon bird sightings changed with air quality?',
+            style={
+                'textAlign': 'left',
+                'color': colors['text'],
+                'margin-top': 20,
+                'margin-bottom': 20,
+                'margin-left': 20,
+                'font-style': 'italic'}
+        ),
 
-    }),
-    
-    html.Div([
-    dcc.Dropdown(
-        id='species',
-        options=[{'label': i, 'value': i} for i in common_names],
-        value='American Crow'),
-        html.Div(id='dd-output-container')],
-        style={'width': '50%', 'margin-bottom': 5,
-        'margin-left': 20}),
-          # gives you default option
+        html.Div([
+            dcc.Dropdown(
+                id='species',
+                options=[{'label': i, 'value': i} for i in common_names],
+                value='Acorn Woodpecker'),  # gives you default option
 
-    html.Div([
-    dcc.Dropdown(
-        id='month',
-        options=[{'label': i, 'value': i} for i in full_months],
-        value='August'),
-        html.Div(id='dd2-output-container')],
-        style={'width': '50%', 'margin-bottom': 5,
-        'margin-left': 20}),  # gives you default option
+            html.Div(id='dd-output-container',
+                     style={'width': '90%', 'margin-bottom': 5,
+                            'margin-left': 20})
+            ]),
 
-    html.Div([
-    dcc.Graph(
-        id='aq-map',
-        style={'width': '90vh', 'height': '70vh'}),
-        html.Div(id='graph-output')],
-        style={'margin-left': 20, 'backgroundColor': colors['background'],
-        'color': colors['text']}),
+        html.Div([
+            dcc.Dropdown(
+                id='month',
+                options=[{'label': i, 'value': i} for i in full_months],
+                value='August'),  # gives you default option
 
-    html.Div([
-    dcc.Slider(
-        id='day-slider',
-        min=1,
-        max=31,
-        value=1,
-        step=1,
-        marks={1: '1', 10: '10', 20: '20', 31: '31'}),
-        html.Div(id='slider-output-container')],
-        style={'width': '50%'}),
+            html.Div(id='dd2-output-container',
+                     style={'width': '90%', 'margin-bottom': 5,
+                            'margin-left': 20})
+        ]),
 
-    html.Div(
-        id='day-indicator',
-        style={'margin-top': 20, 'margin-bottom': 20,
-        'margin-left': 20, 'color': colors['text']}),
+        html.Div([
+            dcc.Graph(
+                id='aq-map',
+                style={'width': '90vh', 'height': '50vh'}),
+            html.Div(id='graph-output',
+                     style={'margin-left': 20, 'backgroundColor': colors['background'],
+                            'color': colors['text']})
+        ]),
 
-    dcc.Dropdown(
-        id='county-names',
-        options=[{'label': i, 'value': i} for i in county_names],
-        value='Baker'),
+        html.Div([
+            dcc.Slider(
+                id='day-slider',
+                min=1,
+                max=31,
+                value=1,
+                step=1,
+                marks={1: '1', 10: '10', 20: '20', 31: '31'}),
+            html.Div(id='slider-output-container',
+                     style={'width': '90%'})
+        ]),
 
-    dcc.Graph(
-        id='bird-counts')
-])
+        html.Div(
+            id='day-indicator',
+            style={'margin-top': 20, 'margin-bottom': 20,
+                   'margin-left': 20, 'color': colors['text']}),
+
+        dcc.Dropdown(
+            id='county-names',
+            options=[{'label': i, 'value': i} for i in county_names],
+            value='Baker'),
+
+        dcc.Graph(
+            id='bird-counts')
+    ]
+)
 
 
 # interactive components:
@@ -155,7 +164,7 @@ def update_aq_graph(species, month, day_slider):
         featureidkey='properties.altname', locations="County",
         color="Avg_PM2.5", hover_name="County",
         color_continuous_scale=px.colors.sequential.Turbo,
-        range_color=(0, 600),
+        range_color=(0, 300),
         mapbox_style='carto-positron', zoom=5,
         center={"lat": 43.81395826303137, "lon": -120.60278690370761},
         opacity=0.5,
