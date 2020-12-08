@@ -23,6 +23,11 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+colors = {
+    'background': '#FFFFFF',
+    'text': '#000000'
+}
+
 # read in the data here:
 
 aq = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv')  # noqa
@@ -45,26 +50,57 @@ county_names = aq['County'].unique()
 full_months = ['August', 'September', 'October', 'November']
 
 # configures the style and layout of the app (including headings etc)
-app.layout = html.Div([
-    dcc.Markdown(children='''
-    ### Phoenix
+app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+    html.H1(
+        children='PHOENIX',
+        style={
+            'textAlign':'left',
+            'color': colors['text'],
+            'margin-top': 0, 
+            'margin-bottom': 20,
+            'margin-left': 20,
+            'font-weight': 'bold'
+        }
+    ),
 
-    How have Oregon Bird sightings changed with air quality?
-    '''),
+    html.Div(children='How have Oregon bird sightings changed with air quality?', style={
+        'textAlign': 'left',
+        'color': colors['text'],
+        'margin-top': 20, 
+        'margin-bottom': 20,
+        'margin-left': 20,
+        'font-style': 'italic'
 
+    }),
+    
+    html.Div([
     dcc.Dropdown(
         id='species',
         options=[{'label': i, 'value': i} for i in common_names],
-        value='American Crow'),  # gives you default option
+        value='American Crow'),
+        html.Div(id='dd-output-container')],
+        style={'width': '50%', 'margin-bottom': 5,
+        'margin-left': 20}),
+          # gives you default option
+
+    html.Div([
     dcc.Dropdown(
         id='month',
         options=[{'label': i, 'value': i} for i in full_months],
-        value='August'),  # gives you default option
+        value='August'),
+        html.Div(id='dd2-output-container')],
+        style={'width': '50%', 'margin-bottom': 5,
+        'margin-left': 20}),  # gives you default option
 
+    html.Div([
     dcc.Graph(
         id='aq-map',
         style={'width': '90vh', 'height': '70vh'}),
+        html.Div(id='graph-output')],
+        style={'margin-left': 20, 'backgroundColor': colors['background'],
+        'color': colors['text']}),
 
+    html.Div([
     dcc.Slider(
         id='day-slider',
         min=1,
@@ -72,10 +108,13 @@ app.layout = html.Div([
         value=1,
         step=1,
         marks={1: '1', 10: '10', 20: '20', 31: '31'}),
+        html.Div(id='slider-output-container')],
+        style={'width': '50%'}),
 
     html.Div(
         id='day-indicator',
-        style={'margin-top': 20, 'margin-bottom': 20}),
+        style={'margin-top': 20, 'margin-bottom': 20,
+        'margin-left': 20, 'color': colors['text']}),
 
     dcc.Dropdown(
         id='county-names',
@@ -124,7 +163,7 @@ def update_aq_graph(species, month, day_slider):
     )
 
     try:
-        subset_date(sub_bird, 'observation date', month, day_slider)
+        sub_bird = subset_date(sub_bird, 'observation date', month, day_slider)
 
         aq_map_scatter = px.scatter_mapbox(
             sub_bird, lat='latitude', lon='longitude',
