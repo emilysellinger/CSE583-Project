@@ -28,9 +28,9 @@ class TestPhoenix(unittest.TestCase):
         day = 1
 
         self.assertTrue(
-            isinstance(app_functions.subset_date(
-                bird_data, 'observation date', month, day),
-                 pd.DataFrame))
+                isinstance(app_functions.subset_date(
+                    bird_data, 'observation date', month, day),
+                    pd.DataFrame))
 
     def one_shot_test_app_functions(self):
         """
