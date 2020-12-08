@@ -23,13 +23,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# markdown text for throughout the app:
-
-TITLE_TEXT = '''
-### Phoenix
-
-How have Oregon Bird sightings changed with air quality?
-'''
 # read in the data here:
 
 aq = pd.read_csv(
@@ -41,7 +34,7 @@ bird = pd.read_csv(
 
 with urlopen(
             'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson'  # noqa
-             ) as response:
+            ) as response:
     counties = json.load(response)
 
 # subsetting data to relevant months
@@ -59,7 +52,11 @@ full_months = ['August', 'September', 'October', 'November']
 
 # configures the style and layout of the app (including headings etc)
 app.layout = html.Div([
-    dcc.Markdown(children=TITLE_TEXT),
+    dcc.Markdown(children='''
+    ### Phoenix
+
+    How have Oregon Bird sightings changed with air quality?
+    '''),
 
     dcc.Dropdown(
         id='species',
