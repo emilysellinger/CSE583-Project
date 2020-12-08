@@ -1,20 +1,19 @@
 """
-Unittests for Phoenix
-#ADD MORE HERE LATER
+Unittests for functions used to modify data for use in the dash app.
 """
 import unittest
 
-from code import app_functions
+from phoenix.appfunctions import subset_date
 
 import pandas as pd
 
 
-class TestPhoenix(unittest.TestCase):
+class TestAppFunctions(unittest.TestCase):
     """
     Contains test cases for Phoenix
     """
 
-    def smoke_test_app_functions(self):
+    def test_smoke_app_functions(self):
         """
         Smoke test for subset_date function.
         Returns: True if function produces a data frame
@@ -28,11 +27,11 @@ class TestPhoenix(unittest.TestCase):
         day = 1
 
         self.assertTrue(
-                isinstance(app_functions.subset_date(
+                isinstance(appfunctions.subset_date(
                     bird_data, 'observation date', month, day),
                     pd.DataFrame))
 
-    def one_shot_test_app_functions(self):
+    def test_one_shot_app_functions(self):
         """
         One shot test for subset_data function.
         Returns true if resulting dataframe is equal to data_result.
@@ -51,13 +50,13 @@ class TestPhoenix(unittest.TestCase):
                                    columns=['observation date', 'species'])
 
         self.assertEqual(
-            app_functions.subset_date(
+            appfunctions.subset_date(
                 bird_data, 'observation date', month, day
             ),
             data_result
         )
 
-    def edgetest_app_functions(self):
+    def test_edgetest_app_functions(self):
         """
         Edge test for subset_data function.
         Returns true if a Value Error is raised.
@@ -71,7 +70,7 @@ class TestPhoenix(unittest.TestCase):
         day = 5
 
         with self.assertRaises(ValueError):
-            app_functions.subset_date(
+            appfunctions.subset_date(
                 bird_data, 'observation date', month, day)
 
 
