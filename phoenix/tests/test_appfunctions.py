@@ -3,7 +3,7 @@ Unittests for functions used to modify data for use in the dash app.
 """
 import unittest
 
-from phoenix.code.appfunctions import subset_date
+import code.appfunctions as af
 
 import pandas as pd
 
@@ -23,11 +23,12 @@ class TestAppFunctions(unittest.TestCase):
                 'species': ['American Crow', 'American Crow',
                             'American Crow', 'American Crow']}
         bird_data = pd.DataFrame(data, columns=['observation date', 'species'])
+        bird_data['observation date'] = pd.to_datetime(bird_data['observation date'])
         month = 'August'
         day = 1
 
         self.assertTrue(
-                isinstance(subset_date(
+                isinstance(af.subset_date(
                     bird_data, 'observation date', month, day),
                     pd.DataFrame))
 
@@ -42,19 +43,19 @@ class TestAppFunctions(unittest.TestCase):
                 'species': ['American Crow', 'American Crow',
                             'American Crow', 'American Crow']}
         bird_data = pd.DataFrame(data, columns=['observation date', 'species'])
+        bird_data['observation date'] = pd.to_datetime(bird_data['observation date'])
         month = 'August'
         day = 1
         data_result = {'observation date': ['08-01-2020'],
                        'species': ['American Crow']}
         data_result = pd.DataFrame(data_result,
                                    columns=['observation date', 'species'])
+        data_result['observation date'] = pd.to_datetime(data_result['observation date'])
 
-        self.assertEqual(
-            subset_date(
-                bird_data, 'observation date', month, day
-            ),
-            data_result
-        )
+        data_test = af.subset_date(
+                    bird_data, 'observation date', month, day
+                    )
+        self.assertTrue(data_test.equals(data_result))
 
     def test_edgetest_app_functions(self):
         """
@@ -66,11 +67,12 @@ class TestAppFunctions(unittest.TestCase):
                 'species': ['American Crow', 'American Crow',
                             'American Crow', 'American Crow']}
         bird_data = pd.DataFrame(data, columns=['observation date', 'species'])
+        bird_data['observation date'] = pd.to_datetime(bird_data['observation date'])
         month = 'August'
         day = 5
 
         with self.assertRaises(ValueError):
-            subset_date(
+            af.subset_date(
                 bird_data, 'observation date', month, day)
 
 
