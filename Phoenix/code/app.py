@@ -32,9 +32,7 @@ bird = pd.read_csv(
     'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv')  # noqa
 
 
-with urlopen(
-            'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson'  # noqa
-            ) as response:
+with urlopen('https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson') as response:  # noqa
     counties = json.load(response)
 
 # subsetting data to relevant months

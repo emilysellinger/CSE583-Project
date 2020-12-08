@@ -32,6 +32,7 @@ install:
 # a list of commands to run before the main script
 before_script:
     - flake8 Phoenix --ignore=E501
+    - flake8 Phoenix --ignore=E126
 
 # the actual commands to run
 script:
