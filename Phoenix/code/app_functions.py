@@ -9,8 +9,8 @@ Functions:
 
 # variables
 
-months = [8, 9, 10, 11]
-full_months = ['August', 'September', 'October', 'November']
+months = [8, 9, 10, 11, 12]
+full_months = ['August', 'September', 'October', 'November', 'December']
 
 
 def subset_date(data_frame, df_date, month, day):
