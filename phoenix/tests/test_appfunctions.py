@@ -27,7 +27,7 @@ class TestAppFunctions(unittest.TestCase):
         day = 1
 
         self.assertTrue(
-                isinstance(appfunctions.subset_date(
+                isinstance(subset_date(
                     bird_data, 'observation date', month, day),
                     pd.DataFrame))
 
@@ -50,7 +50,7 @@ class TestAppFunctions(unittest.TestCase):
                                    columns=['observation date', 'species'])
 
         self.assertEqual(
-            appfunctions.subset_date(
+            subset_date(
                 bird_data, 'observation date', month, day
             ),
             data_result
@@ -70,7 +70,7 @@ class TestAppFunctions(unittest.TestCase):
         day = 5
 
         with self.assertRaises(ValueError):
-            appfunctions.subset_date(
+            subset_date(
                 bird_data, 'observation date', month, day)
 
 
