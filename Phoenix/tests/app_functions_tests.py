@@ -75,9 +75,5 @@ class TestPhoenix(unittest.TestCase):
                 bird_data, 'observation date', month, day)
 
 
-suite = unittest.TestLoader().loadTestsFromTestCase(TestPhoenix)
-_ = unittest.TextTestRunner().run(suite)
-
-
 if __name__ == '__main__':
     unittest.main()
