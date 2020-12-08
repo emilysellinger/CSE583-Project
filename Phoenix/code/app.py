@@ -85,7 +85,7 @@ app.layout = html.Div(
             html.Div(id='dd-output-container',
                      style={'width': '90%', 'margin-bottom': 5,
                             'margin-left': 20})
-            ]),
+        ]),
 
         html.Div([
             dcc.Dropdown(
