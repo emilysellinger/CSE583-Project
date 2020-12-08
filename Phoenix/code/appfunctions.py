@@ -1,6 +1,6 @@
 
 """
-Contains functions for manipulating data used in the Phoenix app.
+Contains functions for manipulating data used in the phoenix app.
 Functions:
     1) subset_date: given a month and a day,
         subsets dataframe to only those dates.
