@@ -26,11 +26,11 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # read in the data here:
 
 aq = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv'  # noqa
-)
+    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv')  # noqa
+
 bird = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv'  # noqa
-)
+    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv')  # noqa
+
 
 with urlopen(
             'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson'  # noqa
@@ -41,7 +41,6 @@ with urlopen(
 aq['Date'] = pd.to_datetime(aq['Date'])
 months = [8, 9, 10, 11]
 aq = aq.loc[aq['Date'].dt.month.isin(months)]
-
 bird['observation date'] = pd.to_datetime(bird['observation date'])
 bird = bird.loc[bird['observation date'].dt.month.isin(months)]
 
