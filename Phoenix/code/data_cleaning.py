@@ -1,17 +1,29 @@
+'''
+Assign counties and aqi category to air quality data for use in dash app.
+
+Functions:
+
+    assign_aqicat(data)
+'''
+
+# Import packages and air quality and county data
 import pandas as pd
 air_quality = pd.read_csv("../data/Daily_Avg_PM2.5_Location.csv")
 air_quality.head()
-
 station_counties = pd.read_csv("../data/ORAQ_StationCounties.csv")
 station_counties.head()
 
+# Assign county values to air quality station readings by shared name
 aq = air_quality.join(station_counties.set_index('Name'), on='Name')
 aq.head()
 
+# Calculate mean daily PM2.5 reading for counties with multiple stations
 cols = ['Date', 'County']
 county_aq = aq.groupby(cols, as_index=False)['Avg_PM2.5'].mean()
 county_aq.head()
 
+# Assign PM2.5 values for counties without stations to nearest county
+# and append to dataframe with county means.
 coos = county_aq[county_aq['County'] == 'Douglas']
 coos = coos.replace(['Douglas'], 'Coos')
 curry = county_aq[county_aq['County'] == 'Josephine']
@@ -40,11 +52,22 @@ polk = county_aq[county_aq['County'] == 'Marion']
 polk = polk.replace(['Marion'], 'Polk')
 lincoln = county_aq[county_aq['County'] == 'Benton']
 lincoln = lincoln.replace(['Benton'], 'Lincoln')
-or_counties = county_aq.append([coos, curry, malheur, morrow, gilliam, wheeler, sherman, hood_river,
-                               columbia, clatsop, tillamook, yamhill, polk, lincoln])
+or_counties = county_aq.append([coos, curry, malheur, morrow,
+                               gilliam, wheeler, sherman, hood_river,
+                               columbia, clatsop, tillamook, yamhill,
+                               polk, lincoln])
 
 
 def assign_aqicat(data):
+    '''
+    Returns a dataset of PM2.5 values with categorical AQI ratings assigned.
+
+        Parameters:
+                data (array): Dataframe with column of daily avg PM2.5 values
+
+        Returns:
+                data (array): Dataframe with AQI ratings appended as new column
+    '''
     aqi_cat = []
 
     for row in data['Avg_PM2.5']:
@@ -66,5 +89,7 @@ def assign_aqicat(data):
     return data
 
 
+# Use assign_aqicat function to append AQI categories
+# to county daily PM2.5 dataframe.
 assign_aqicat(or_counties)
 or_counties.to_csv("../data/OR_DailyAQ_byCounty.csv")
