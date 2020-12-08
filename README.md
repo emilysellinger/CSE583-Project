@@ -1,6 +1,6 @@
 ### Ocean's 4 Capstone CSE583 Project
 # Phoenix 
-[![Build Status](https://travis-ci.org/emilysellinger/Phoenix.svg?branch=main)](https://travis-ci.org/emilysellinger/Phoenix) [![Coverage Status](https://coveralls.io/repos/github/emilysellinger/CSE583-Project/badge.svg)](https://coveralls.io/github/emilysellinger/CSE583-Project)
+[![Build Status](https://travis-ci.org/emilysellinger/Phoenix.svg?branch=main)](https://travis-ci.org/emilysellinger/Phoenix) [![Coverage Status](https://coveralls.io/repos/github/emilysellinger/Phoenix/badge.svg)](https://coveralls.io/github/emilysellinger/Phoenix)
 
 Phoenix offers an researchers an intial analysis of the impact of the 2020 Oregon wildfires on bird observations in the state. We use detailed citizen scientist data from eBird and air quality data from the Oregon Department of Environmental Quality to compare sightings with PM2.5 levels. 
 
