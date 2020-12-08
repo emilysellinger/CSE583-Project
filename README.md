@@ -19,10 +19,9 @@ The project has the following structure:
         |- Oregon_counties_map.geojson
         |- PM2.5_metadata.txt
         |- shortened_bird_data.csv
-     |- code/
+     |- demos/
         |- Demo_Researcher Use Case.ipynb
-        |- Practice Code_Researcher Case.ipynb
-        |- PracticeCode_AQAssignCounties.ipynb
+     |- code/
         |- air_quality_knn.py
         |- app.py
         |- data_cleaning.py
