@@ -3,7 +3,7 @@ Unittests for functions used to modify data for use in the dash app.
 """
 import unittest
 
-from phoenix.appfunctions import subset_date
+from phoenix.code.appfunctions import subset_date
 
 import pandas as pd
 
