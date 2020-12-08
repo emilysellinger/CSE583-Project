@@ -53,8 +53,7 @@ class TestAppFunctions(unittest.TestCase):
         data_result['observation date'] = pd.to_datetime(data_result['observation date'])
 
         data_test = af.subset_date(
-                    bird_data, 'observation date', month, day
-                    )
+                    bird_data, 'observation date', month, day)
         self.assertTrue(data_test.equals(data_result))
 
     def test_edgetest_app_functions(self):
