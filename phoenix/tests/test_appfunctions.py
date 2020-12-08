@@ -3,7 +3,7 @@ Unittests for functions used to modify data for use in the dash app.
 """
 import unittest
 
-import code.appfunctions as af
+import phoenix.code.appfunctions as af
 
 import pandas as pd
 
