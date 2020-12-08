@@ -25,12 +25,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # read in the data here:
 
-aq = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv')  # noqa
+aq = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/Phoenix/data/OR_DailyAQ_byCounty.csv')  # noqa
 
-bird = pd.read_csv(
-    'https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv')  # noqa
-
+bird = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/shortened_bird_data.csv')  # noqa
 
 with urlopen('https://raw.githubusercontent.com/emilysellinger/CSE583-Project/main/Phoenix/data/Oregon_counties_map.geojson') as response:  # noqa
     counties = json.load(response)
