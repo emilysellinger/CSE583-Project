@@ -106,6 +106,19 @@ class Testairqualityknn(unittest.TestCase):
         with self.assertRaises(TypeError):
             knn.air_quality_knn(air_arr, bird_list)
 
+    def test_skipdays_warning(self):
+        """
+        Tests that the air_quality_knn function produces a warning when there
+        aren't enough air quality datapoint for a day to run knn.
+
+        Asserts: Produces a warning when number of air quality datapoints for
+        a day is less than 5.
+        """
+        too_short_air_quality = self.air_data.iloc[::2, :]
+
+        with self.assertWarns(Warning):
+            knn.air_quality_knn(too_short_air_quality, self.bird_data_example)
+
     def test_knn_bounds(self):
         """
         Tests that an output from the knn function is within the range of
