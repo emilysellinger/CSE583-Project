@@ -3,13 +3,22 @@ air quality estimates for GPS locations between observation
 stations from the Oregon air quality dataset.
 Uses the Scikit Learn KNN method.
 
-knn_regression(data, query)
-    -- Performs a 5-neighbor knn for air quality at the
-    locations specified.
+Functions:
+
+air_quality_knn(air_quality, ebd_data)
+    -- Performs a 5-neighbor knn for air quality on each day
+    at the locations specified by the observations in the
+    eBird data.
+
+verify_location(coordinates)
+    -- Performs a check that the inputted gps coordinates
+    roughly fall within the state of Oregon.
 """
 
+import warnings
 import pandas as pd
 import numpy as np
+
 
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
@@ -40,12 +49,35 @@ def air_quality_knn(air_quality, ebd_data):
             additional column 'Avg_PM2.5' that gives the air quality
             for an observation.
 
-    Raises:
+    Warnings:
+        'NaN produced: <5 neighbors for (day)'
+            Days for which there may be fewer than 5 air quality
+            observations will yield NaN values.
 
+    Raises:
+        TypeError: If the input data are not both pandas DataFrames.
+        ValueError: If the inputs are swapped or the column naming
+            is incorrect.
 
     """
 
-    # First, convert the air-quality dates to datetime format and
+    # Verify correct input type, raise TypeError if not
+    air_is_df = isinstance(air_quality, pd.DataFrame)
+    bird_is_df = isinstance(ebd_data, pd.DataFrame)
+
+    if not air_is_df or not bird_is_df:
+        raise TypeError("Incorrect data type. Must be pandas DataFrame.")
+
+    # More informatively, verify correct input order and raise
+    # exception if they might be switched or have incorrect
+    # column names. (Just using two important ones as indicators)
+    categ_in_air = 'Category' in air_quality
+    tax_in_birds = 'taxonomic order' in ebd_data
+
+    if not categ_in_air or not tax_in_birds:
+        raise ValueError("Input order may be reversed, otherwise check column names")
+
+    # Convert the air-quality dates to datetime format and
     # remove the data points that occur after September to match
     # the eBird data.
     air_quality['Date'] = pd.to_datetime(air_quality['Date'])
@@ -57,11 +89,17 @@ def air_quality_knn(air_quality, ebd_data):
     air_quality_data = air_quality[['Date', 'Latitude',
                                     'Longitude', 'Avg_PM2.5']]
 
+    # Verify that the air quality observations are in Oregon
+    verify_location(air_quality_data[['Latitude', 'Longitude']])
+
+    # Remove NaN values from the air quality data
+    air_quality_data = air_quality_data[air_quality_data['Avg_PM2.5'].notna()]
+
     # Also convert eBird dates to datetime format for compatibility.
     ebd_data['observation date'] = pd.to_datetime(ebd_data['observation date'])
 
-    # Remove NaN values.
-    air_quality_data = air_quality_data[air_quality_data['Avg_PM2.5'].notna()]
+    # Verify that the bird observations are in Oregon
+    verify_location(ebd_data[['latitude', 'longitude']])
 
     # Initialize a column in the eBird dataframe to hold the air
     # quality measure for each observation.
@@ -78,10 +116,25 @@ def air_quality_knn(air_quality, ebd_data):
         x_train = air_today[['Latitude', 'Longitude']]
         y_train = air_today['Avg_PM2.5']
 
+        # Skip over days when there aren't enough air quality points
+        # to produce 5 nearest neighbors.
+        if len(air_today['Latitude']) < 5:
+            date = pd.to_datetime(day).date()
+            warnings.warn(f"NaN produced: <5 neighbors for {date}")
+            continue
+        else:
+            pass
+
         # Define the 'test' or 'query' data: the locations of
         # the bird observations on the respective day.
         birds_today = ebd_data[ebd_data['observation date'] == day]
         x_test = birds_today[['latitude', 'longitude']]
+
+        # Skip over this day if there aren't any bird observations.
+        if birds_today.empty is True:
+            continue
+        else:
+            pass
 
         # Normalize and fit the location data to ensure proper scaling.
         scaler = StandardScaler()
@@ -109,3 +162,34 @@ def air_quality_knn(air_quality, ebd_data):
 
     # Return the whole eBird dataset with new column for air quality.
     return ebd_data
+
+
+def verify_location(coordinates):
+
+    """
+    Performs a simple check of all gps coordinates found in inputs.
+    If a (latitude,longitude) pair is not found within the (rough)
+    range of the state of Oregon, a ValueError is raised.
+
+    Args:
+        coordinates (pandas dataframe): contains two columns, first
+            one for latitude, the other for longitude.
+
+    Returns:
+        None. If an error is not raised, this function simply passes.
+
+    Raises:
+        ValueError: If any gps coordinates in the data do not fall
+            within the predetermined (lat,long) extremes of Oregon.
+    """
+    coordinates.columns = coordinates.columns.str.lower()
+
+    # Verify that all air quality locations are (roughly) within Oregon
+    for ind in coordinates.index:
+        lat = coordinates.at[ind, 'latitude']
+        long = coordinates.at[ind, 'longitude']
+
+        if 42 <= lat <= 46.3 and -124.57 <= long <= -116.47:
+            pass
+        else:
+            raise ValueError(f"GPS coordinate at index {ind} not in Oregon")
