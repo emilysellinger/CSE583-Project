@@ -172,7 +172,7 @@ class Testairqualityknn(unittest.TestCase):
             for i in range(0, 5):
                 sum_labels = sum_labels + aq_day.at[ordered_array[i][0], 'Avg_PM2.5']
 
-            mean_label = sum_labels/5
+            mean_label = sum_labels / 5
             manual_knn.at[ind, 'Avg_PM2.5'] = mean_label
 
         birds_air_quality = knn.air_quality_knn(self.air_data, self.bird_data_example)
@@ -180,7 +180,7 @@ class Testairqualityknn(unittest.TestCase):
 
         knn_diffs = birds_knn.add(-manual_knn).abs()
 
-        self.assertTrue(all(knn_diffs.le(0.25*birds_knn)))
+        self.assertTrue(all(knn_diffs.le(0.25 * birds_knn)))
 
 
 if __name__ == '__main__':
