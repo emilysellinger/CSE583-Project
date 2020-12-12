@@ -9,8 +9,10 @@ This script does the following:
   - Create a list of Oregon resident species.
   - For each entry in the dataframe, if the species matches a resident species in our list, append the sighting to a new pandas dataframe that only contains residents.
   - Save our resident dataframe for analysis.
+  
+**Air Quality KNN (phoenix/code/air_quality_knn.py)**
 
-**Air Quality Data Cleanup**  
+**Data Cleaning (data_cleaning.py)**  
 - For each station and day, calculate the average 24-hour PM2.5 concentration using the hourly data.
 - Create a list of the EPA’s PM2.5 breakpoint table for AQI.
 - From the average PM2.5 concentrations, determine the day’s AQI category.
@@ -18,7 +20,9 @@ This script does the following:
 - Save this dataframe for analysis.
 - An additional dataframe will be created with the average AQI for the state of Oregon for each day of the study period.
 
-**Visualization of Data**  
+**App Functions (phoenix/code/app_functions.py)**
+
+**Dash App (phoenix/code/app.py)**  
 A variety of interactive maps and plots will be used to visualize the effects of air quality on resident bird sightings in Oregon. These visualizations include:
 - A map of Oregon with shaded regions representing different AQIs as well as icons representing bird sightings (and number of bird sightings) for resident bird species. This map will have a time slider that will allow the user to see how air quality and sightings change from day to day between January 2020 and November 2020. Additionally, it will have the ability to select which bird species the user wants to view.
 - A chart of the number of sightings for various Oregon resident species over time. Icons on this chart will indicate days with AQIs in the Very Unhealthy and Hazardous categories, as a proxy for fire events. For this chart, the sightings and air quality will be grouped by region, and the user will have the option of seeing the data for all of Oregon or selecting just their region of interest from a drop down menu.
@@ -26,11 +30,16 @@ A variety of interactive maps and plots will be used to visualize the effects of
 Python packages used:
 - Plotly
 
-**Web-based application for sharing of visualizations**  
+**Birder Dash App (phoenix/code/app.py)**
+  
 The interactive visualizations created through plotly will be organized into a dashboard using dash, and this can be shared and embedded using html code.
 
 Python packages used:
 - Dash
+
+**Researcher Data Cleaning ()**
+
+**Researcher Visualizations ()**
 
 ## Interactions
 **Birder:** 
