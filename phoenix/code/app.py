@@ -17,7 +17,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
-from app_functions import subset_date
+from appfunctions import subset_date, subset_air_quality
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -206,6 +206,40 @@ def display_date_aq(month, day_slider):
     return 'Date: ' + str(month) + ' ' + str(day_slider) + ', 2020'
 
     # Bird Count Line Graph
+
+
+@app.callback(
+    Output('bird-counts', 'figure'),
+    Input('county-names', 'value'))
+def update_count_graph(county_name):
+    """
+    Displays a chart with the counts of birds by species for selected county.
+
+    Args:
+        county_name (str): selected county from dropdown
+    Returns:
+        count_plot (figure): plot of bird observations over time with AQI category
+    """
+    sub_bird_county = bird.loc[bird['county'] == county_name]
+
+    haz_dates, haz_dates_offset, vh_dates, vh_dates_offset = subset_air_quality(aq, county_name)
+
+    count_plot = px.scatter(
+            sub_bird_county, x='observation date',
+            y='observation count', color='common name',
+            labels={"common name": "Species", "observation date": "Date", "observation count": "Observation Count"},
+            category_orders={"common name": sorted(bird['common name'].unique())})
+
+    for i in range(len(haz_dates)):
+        count_plot.add_vrect(x0=haz_dates[i], x1=haz_dates_offset[i],
+                             fillcolor="OrangeRed", opacity=0.5, layer="below", line_width=0)
+
+    for i in range(len(vh_dates)):
+        count_plot.add_vrect(x0=vh_dates[i], x1=vh_dates_offset[i],
+                             fillcolor="Gold", opacity=0.5,
+                             layer="below", line_width=0)
+
+    return count_plot
 
 
 if __name__ == '__main__':
