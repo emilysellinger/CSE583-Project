@@ -26,7 +26,7 @@ The project has the following structure:
      |- demos/
         |- Dash_App_Demo.mp4
         |- Researcher_Demo_Altair_Visualizations.ipynb
-        |- Researcher_Demo_Data_Cleanign.ipynb
+        |- Researcher_Demo_Data_Cleaning.ipynb
      |- code/
         |- air_quality_knn.py
         |- app.py
