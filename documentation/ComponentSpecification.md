@@ -28,19 +28,19 @@ Python packages used:
 **App Functions (phoenix/code/app_functions.py)**  
 We use a module to organize some of the functions that subset the data for visualization in the dash app. These include:
 - subset_date:
-- - Uses the month and day selected in the dropdown menu to subset the air quality and ebird datasets to only that specific date.
+  - Uses the month and day selected in the dropdown menu to subset the air quality and ebird datasets to only that specific date.
 - subset_air_quality:
-- - Uses the county specified in the dropdown menu to subset the air quality data.
-- - New dataframes are created which contain only dates that are rated Very Unhealthy or Hazardous by the EPA.
-- - A new column called "Data Offset" is added to these new dataframes that allow for easier plotting of shaded rectangles in the dash app below.
-- - These new dataframes are then converted to lists so they can be used with plotly.
+  - Uses the county specified in the dropdown menu to subset the air quality data.
+  - New dataframes are created which contain only dates that are rated Very Unhealthy or Hazardous by the EPA.
+  - A new column called "Data Offset" is added to these new dataframes that allow for easier plotting of shaded rectangles in the dash app below.
+  - These new dataframes are then converted to lists so they can be used with plotly.
 
 Python packages used:
 - Pandas
 
 **Plotly visualizations (phoenix/code/app.py)**  
 A variety of interactive maps and plots will be used to visualize the effects of air quality on resident bird sightings in Oregon. These visualizations include:
-- A choropleth map of Oregon with shaded counties representing their PM 2.5 rating as well as circles representing bird sightings ( with the size representing the numberr of birds sighted) for resident bird species. This map has a time slider that allows the user to see how air quality and sightings change from day to day between June 2020 and November 2020. Additionally, it will have the ability to select which family orspecies the user wants to view.
+- A choropleth map of Oregon with shaded counties representing their PM 2.5 rating as well as circles representing bird sightings ( with the size representing the numberr of birds sighted) for resident bird species. This map has a time slider that allows the user to see how air quality and sightings change from day to day between June 2020 and September 2020. Additionally, it will have the ability to select which family or species the user wants to view.
 - A chart of the number of sightings for  Oregon resident bird species over time. Shaded rectangles represent the days with Very Unhealthy or Hazardous air quality ratings in the county selected. 
 
 Python packages used:
@@ -48,7 +48,7 @@ Python packages used:
 
 **Birder Dash App (phoenix/code/app.py)**
   
-The interactive visualizations created through plotly will be organized into a dashboard using dash, deployed using Heroku and then shared by embedding the html in a website. For demonstration purposes, a github website was created to show how this app could be shared.
+The interactive visualizations created through plotly will be organized into a dashboard using dash, deployed using Heroku and then shared by embedding throught the html in a website. For demonstration purposes, a github website was created to show how this app could be shared.
 
 Python packages used:
 - Dash
@@ -67,10 +67,10 @@ Python packages used:
 ## Interactions
 
 **Birder:**  
-A birder who lives in a county that was hard hit by the Oregon wildfires this summer is noticing that she is seeing less American crows this month than usual. She goes onto the Portland Audubon society website and finds the PHOENIX dashboard. The app uses the cleaned dataset to present a few visualizations. She uses the menus on the choropleth map to select Redwing Blackbirds and the month of September, when the fires hit hardest. The dashboard uses these inputs to subset the data so she only sees what she is most interested in. She uses the slider to watch as sightings and air quality changes over time. She notices that this species disappeared almost completely after the wildfires in her area, but that they are still commonly sighted across Oregon. She also examines sightings for all of the birds in her county in the scatterplot. She notices that around the time of very unealthy and hazardous air quality ratings most bird sightings completely drop off, but that they begin to rise again after.
+A birder who lives in a county that was hard hit by the Oregon wildfires this summer is noticing that she is seeing less American crows this month than usual. She goes onto the Portland Audubon society website and finds the PHOENIX dashboard. The app uses the cleaned dataset to present a few visualizations. She uses the menus on the choropleth map to select Redwing Blackbirds and the month of September, when the fires hit hardest. The dashboard uses these inputs to subset the data so she only sees what she is most interested in. She uses the slider to watch as sightings and air quality changes over time. She notices that this species disappeared almost completely after the wildfires in her area, but that they are still commonly sighted across Oregon. She also examines sightings for all of the birds in her county in the scatterplot. She notices that around the time of very unhealthy and hazardous air quality ratings most bird sightings completely drop off, but that they begin to rise again after.
 
 **Researcher**  
-An ecologist interested in corvids in Oregon wonders if this family might have been impacted by the Oregon wildfires this year. She installs our package and opens the jupyter notebook. She uses the cleaned ebird data and the assigned PM 2.5 ratings to these sighting locations from our knn regression module in the jupyter notebook. She uses the Altair visualizations to explore the relationships between observation counts and air quality. She even changes some of the inputs for the visualizations so they color the markers based on family so she can really see what is occuring with the corvids which she is most interested in. She examines the results of the One-Way ANOVA, and agrees that this warrants further investigation. She might even export the bird dataframe that has included air quality information as a csv which she can then use on her own for further statistical analyses. 
+An ecologist interested in corvids in Oregon wonders if this family might have been impacted by the Oregon wildfires this year. She installs our package and opens the jupyter notebook. She uses the cleaned ebird data and the assigned PM 2.5 ratings to these sighting locations from our knn regression module in the jupyter notebook. She uses the Altair visualizations to explore the relationships between observation counts and air quality. She even changes some of the inputs for the visualizations so they color the markers based on family so she can really see what is occurring with the corvids which she is most interested in. She examines the results of the One-Way ANOVA, and agrees that this warrants further investigation. She might even export the bird dataframe that has included air quality information as a csv which she can then use on her own for further statistical analyses. 
 
 ## List of Tasks (in priority order):  
 Week 1
