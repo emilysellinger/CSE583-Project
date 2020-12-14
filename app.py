@@ -17,7 +17,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
-from appfunctions import subset_date, subset_air_quality
+from phoenix.code.appfunctions import subset_date, subset_air_quality
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
