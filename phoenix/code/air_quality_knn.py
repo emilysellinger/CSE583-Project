@@ -183,14 +183,16 @@ def verify_location(coordinates):
             If any gps coordinates in the data do not fall
             within the predetermined (lat,long) extremes of Oregon.
     """
+
     coordinates.columns = coordinates.columns.str.lower()
 
     # Verify that all air quality locations are (roughly) within Oregon
     for ind in coordinates.index:
+
         lat = coordinates.at[ind, 'latitude']
         long = coordinates.at[ind, 'longitude']
 
-        if 40 <= lat <= 47 and -125 <= long <= -115:
+        if (40 <= lat <= 47) and (-125 <= long <= -115):
             pass
         else:
             warnings.warn(f"Coordinate not in Oregon at index: {ind}")
