@@ -1,7 +1,6 @@
 """
 This module encodes a dash app for non-experts to examine
 patterns in bird sightings and air quality in Oregon.
-
 """
 
 # Run this app with `python app.py` and
@@ -17,19 +16,25 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
-from flask_caching import Cache
-
 from phoenix.code.appfunctions import subset_date, subset_air_quality
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+server = app.server
+
+colors = {
+    'background': '#FFFFFF',
+    'text': '#000000'
+}
 
 # read in the data here:
 
 aq = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/phoenix/data/OR_DailyAQ_byCounty.csv')  # noqa
-import time
-start = time.time()
-bird = pd.read_csv('https://bernease.s3-us-west-2.amazonaws.com/hold/cse583_au20_ebird/ebird_residents_OR_2020.csv')# noqa
-#bird = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/phoenix/data/shortened_bird_data.csv')  # noqa
-end=time.time()
-print(end-start)
+
+bird = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/phoenix/data/shortened_bird_data.csv')  # noqa
+
 with urlopen('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/phoenix/data/Oregon_counties_map.geojson') as response:  # noqa
     counties = json.load(response)
 
@@ -44,17 +49,6 @@ bird = bird.loc[bird['observation date'].dt.month.isin(months)]
 common_names = sorted(bird['common name'].unique())
 county_names = aq['County'].unique()
 full_months = ['August', 'September', 'October', 'November']
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-server = app.server
-
-colors = {
-    'background': '#FFFFFF',
-    'text': '#000000'
-}
 
 # configures the style and layout of the app (including headings etc)
 app.layout = html.Div(
@@ -154,7 +148,6 @@ def update_aq_graph(species, month, day_slider):
     Creates an air quality choropleth map depending on the species,
     month, and day selected in the app. Bird sightings for selected
     species are plotted as a scatter plot over air quality choropleth.
-
     Args:
         species(str): common name selected from dropdown
         month(str): name of month selected from dropdown
@@ -221,7 +214,6 @@ def display_date_aq(month, day_slider):
 def update_count_graph(county_name):
     """
     Displays a chart with the counts of birds by species for selected county.
-
     Args:
         county_name (str): selected county from dropdown
     Returns:
