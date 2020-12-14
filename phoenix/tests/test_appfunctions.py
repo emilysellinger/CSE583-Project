@@ -84,7 +84,7 @@ class TestAppFunctions(unittest.TestCase):
                 'County': ['Baker', 'Baker', 'Baker', 'Clackamas']}
         aq_data = pd.DataFrame(data, columns=['Date', 'AQI_Category', 'County'])
         aq_data['Date'] = pd.to_datetime(aq_data['Date'])
-        county_name = 'Baker'
+        county_name = ['Baker']
         haz_dates, haz_dates_offset, vh_dates, vh_dates_offset = af.subset_air_quality(
             aq_data, county_name)
 
@@ -103,7 +103,7 @@ class TestAppFunctions(unittest.TestCase):
                 'County': ['Baker', 'Baker', 'Baker', 'Clackamas']}
         aq_data = pd.DataFrame(data, columns=['Date', 'AQI_Category', 'County'])
         aq_data['Date'] = pd.to_datetime(aq_data['Date'])
-        county_name = 'Baker'
+        county_name = ['Baker']
         haz_dates, haz_dates_offset, vh_dates, vh_dates_offset = af.subset_air_quality(
             aq_data, county_name)
         result_haz_dates = ['2020-09-15']
