@@ -77,7 +77,7 @@ def get_aq_data():
     """
     print("Retrieving Air Quality County Data...")
 
-    aq1 = pd.read_csv('https://raw.githubusercontent.com/emilysellinger/Phoenix/main/phoenix/data/OR_DailyAQ_byCounty.csv')# noqa
+    aq1 = pd.read_csv('phoenix/data/OR_DailyAQ_byCounty.csv')
 
     aq1['Date'] = pd.to_datetime(aq1['Date'])
     aq1 = aq1.loc[aq1['Date'].dt.month.isin(months)]
@@ -102,9 +102,7 @@ def get_bird_data():
     """
 
     print("Retrieving Bird Data...")
-    bird1 = pd.read_csv('https://bernease.s3-us-west-2.amazonaws.com/hold/cse583_au20_ebird/ebird_residents_OR_2020.csv')# noqa
-    bird1 = bird1[['taxonomic order', 'common name', 'observation count', 'county',
-                   'latitude', 'longitude', 'observation date', 'order', 'family']]
+    bird1 = pd.read_csv("phoenix/data/ebird_app_data.csv")
     bird1['observation date'] = pd.to_datetime(bird1['observation date'])
     bird1 = bird1.loc[bird1['observation date'].dt.month.isin(months)]
 
