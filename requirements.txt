@@ -2,3 +2,4 @@ pandas
 dash
 plotly_express
 gunicorn
+Flask-Caching
