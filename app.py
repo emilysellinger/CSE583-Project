@@ -36,7 +36,7 @@ colors = {
 CACHE_CONFIG = {
     'CACHE_TYPE': 'filesystem',
     'CACHE_DIR': 'cache',
-    'CACHE_DEFAULT_TIMEOUT': 6000
+    'CACHE_DEFAULT_TIMEOUT': 180
 }
 
 cache = Cache(app.server, config=CACHE_CONFIG)
@@ -125,48 +125,6 @@ app.layout = html.Div(
     children=[
         html.Div([
             html.Div([
-                html.H1(
-                    children='Phoenix',
-                    style={
-                        'textAlign': 'left',
-                        'color': colors['text'],
-                        'margin-top': 0,
-                        'margin-bottom': 20,
-                        'margin-left': 20,
-                        'font-weight': 'bold'
-                    }
-                ),
-
-                html.Div(
-                    children='How have Oregon bird sightings changed with air quality?',
-                    style={
-                        'textAlign': 'left',
-                        'color': colors['text'],
-                        'margin-top': 20,
-                        'margin-bottom': 20,
-                        'margin-left': 20,
-                        'font-style': 'italic',
-                        'font-size': 'large'
-                    }
-                )
-            ], style={'margin-top': 20, 'margin-left': 20}, className="six columns"),
-
-            html.Img(
-                src="https://i.imgur.com/o8ZcP8x.png",
-                className="three columns",
-                style={
-                    'height': '22%',
-                    'width': '22%',
-                    'float': "right",
-                    'position': 'relative',
-                    'padding-right': 30,
-                    'padding-top': 40
-                }
-            )
-        ], className="row"),
-
-        html.Div([
-            html.Div([
                 "Family:",
                 dcc.Dropdown(
                     id='family',
@@ -174,7 +132,7 @@ app.layout = html.Div(
                     value=['Corvidae (Crows, Jays, and Magpies)'],
                     multi=True
                 )
-            ], className="three columns"),
+            ], style={'width': '21%'}, className="three columns"),
 
             html.Div([
                 "Species:",
@@ -187,7 +145,33 @@ app.layout = html.Div(
                 html.Div(id='dd-output-container',
                          style={'width': '10%',
                                 'margin-left': 0})
-            ], className="three columns"),
+            ], className="two columns")
+        ], style={'margin-bottom': 20, 'margin-left': 40}, className="row"),
+
+        html.Div([
+            html.Div([
+                "Month:",
+                dcc.Dropdown(
+                    id='month',
+                    options=[{'label': i, 'value': i} for i in full_months],
+                    value='September'
+                ),
+
+                html.Div(id='dd2-output-container',
+                         style={'width': '8%',
+                                'margin-left': 0
+                                })
+            ], style={'width': '8%'}, className="two columns"),
+
+            html.Div([
+                "Day:",
+                dcc.Slider(
+                    id='day-slider',
+                    min=1,
+                    value=1,
+                    step=1),
+                html.Div(id='slider-output-container')
+            ], className="four columns"),
 
             html.Div([
                 "Graph:",
@@ -201,61 +185,24 @@ app.layout = html.Div(
                     value='common name',
                     labelStyle={'display': 'inline-block'}
                 )
-            ], className="three columns")
-
-        ], style={'margin-bottom': 20, 'margin-left': 40}, className="row"),
-
-        html.Div([
-            html.Div([
-                "Month:",
-                dcc.Dropdown(
-                    id='month',
-                    options=[{'label': i, 'value': i} for i in full_months],
-                    value='September'
-                ),
-
-                html.Div(id='dd2-output-container',
-                         style={'width': '10%',
-                                'margin-left': 0
-                                })
-            ], style={'margin-left': 30, 'width': 150}, className="two columns"),
+            ], style={'margin-left': 160}, className="three columns offset-by-one"),
 
             html.Div([
-                "Day:",
-                dcc.Slider(
-                    id='day-slider',
-                    min=1,
-                    value=1,
-                    step=1),
-                html.Div(id='slider-output-container',
-                         style={'width': '55%'})
-            ], style={'margin-left': 50}, className="four columns"),
-
-            html.Div(
-                id='day-indicator',
-                style={'margin-left': 50, 'margin-top': 20,
-                       'color': colors['text']}, className="two columns")
-        ], className="seven columns"),
-
-        html.Div([
-            html.Div([
-                "County:"
-            ], style={'display': 'inline-block'}),
-
-            html.Div([
+                "County:",
                 dcc.Dropdown(
                     id='county-names',
                     options=[{'label': i, 'value': i} for i in county_names],
-                    value='Multnomah', multi=True),
-            ], style={'display': 'inline-block', 'width': '70%', 'margin-left': 15}),
+                    value='Multnomah'),
+            ], style={'width': '15%', 'margin-left': -90}, className="two columns")
 
-            html.Div([
-                dcc.Checklist(
-                    id='select-all-counties',
-                    options=[{'label': 'Select All', 'value': 1}], value=[0])
-            ], style={'width': '15%', 'display': 'inline-block', 'margin-left': 15})
+        ], style={'margin-left': 40}, className="row"),
 
-        ], style={'display': 'inline-block', 'margin-left': -140}, className="five columns"),
+        html.Div([
+            html.Div(
+                id='day-indicator',
+                style={'color': colors['text'], 'margin-top': 10}, 
+                className="five columns offset-by-two"),
+        ], className="row"),
 
         html.Div([
             html.Div([
@@ -317,7 +264,7 @@ def update_aq_graph(species, month, day_slider):
             sub_bird, lat='latitude', lon='longitude',
             size='observation count',
             size_max=maxsize,
-            zoom=6, color_discrete_sequence=['#EF553B'],
+            zoom=5, color_discrete_sequence=['#EF553B'],
             mapbox_style="carto-positron",
             center={"lat": 44.14495826303137, "lon": -120.60278690370761}
         )
@@ -352,7 +299,7 @@ def render_map(month, day):
             color="Avg_PM2.5", hover_name="County",
             color_continuous_scale=px.colors.sequential.Turbo,
             range_color=(0, 300),
-            mapbox_style='carto-positron', zoom=6,
+            mapbox_style='carto-positron', zoom=5,
             center={"lat": 44.14495826303137, "lon": -120.60278690370761},
             opacity=0.5,
             labels={'Avg_PM2.5': 'Average PM 2.5'}
@@ -425,28 +372,6 @@ def set_species_options(family_picked):
         species_list = category_labels.loc[category_labels['family'].isin(family_picked), 'species']
     dict_species_list = [{'label': i, 'value': i} for i in species_list]
     return dict_species_list
-
-
-# Setting County to 'select-all'
-@app.callback(
-    Output('county-names', 'value'),
-    [Input('select-all-counties', 'value')],
-    [State('county-names', 'options')])
-def select_all_counties(selected, options):
-    """
-    Sets the county dropdown to all or default based on input
-    from the 'select all' checkbox.
-
-    Args:
-        selected (list): can be [0] for unselected or [0,1] for selected
-        options (dict): all of the options available in the county dropdown
-    Returns:
-        All of the counties if the box is selected, the default county if not
-    """
-    if len(selected) > 1:
-        return [i['value'] for i in options]
-    else:
-        return 'Multnomah'
 
 
 # Bird Count Line Graph
