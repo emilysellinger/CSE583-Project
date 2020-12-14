@@ -13,8 +13,8 @@ import pandas as pd
 
 # variables
 
-months = [8, 9, 10, 11, 12]
-full_months = ['August', 'September', 'October', 'November', 'December']
+months = [6, 7, 8, 9]
+full_months = ['June', 'July', 'August', 'September']
 
 
 def subset_date(data_frame, df_date, month, day):
@@ -52,7 +52,7 @@ def subset_air_quality(df, county_name):
 
     Args:
         df (pandas dataframe): air quality dataframe to be subset
-        county_name (str): name of county selected from dropdown
+        county_name (list): names of counties selected from dropdown
     Returns:
         haz_dates (list): list of dates with hazardous air quality
         haz_dates_offset (list): day after the day with hazardous air quality
@@ -66,8 +66,8 @@ def subset_air_quality(df, county_name):
 
     vh_aq = df.loc[df['AQI_Category'] == 'Very Unhealthy']
     haz_aq = df.loc[df['AQI_Category'] == 'Hazardous']
-    sub_vh_aq = vh_aq.loc[vh_aq['County'] == county_name].copy()
-    sub_haz_aq = haz_aq.loc[haz_aq['County'] == county_name].copy()
+    sub_vh_aq = vh_aq.loc[vh_aq['County'].isin(county_name)].copy()
+    sub_haz_aq = haz_aq.loc[haz_aq['County'].isin(county_name)].copy()
     sub_vh_aq['Date offset'] = sub_vh_aq['Date'] + pd.DateOffset(days=1)
     sub_haz_aq['Date offset'] = sub_haz_aq['Date'] + pd.DateOffset(days=1)
 
