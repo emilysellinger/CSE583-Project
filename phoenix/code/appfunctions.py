@@ -59,6 +59,10 @@ def subset_air_quality(df, county_name):
         vh_dates (list): list of dates with very unhealthy air quality
         vh_dates_offset (list): day after day with very unhealthy air quality
     """
+    if 'County' not in df.columns:
+        raise ValueError('Air quality data is missing county information')
+    if 'AQI_Category' not in df.columns:
+        raise ValueError('Air quality data is missing EPA Categories')
 
     vh_aq = df.loc[df['AQI_Category'] == 'Very Unhealthy']
     haz_aq = df.loc[df['AQI_Category'] == 'Hazardous']
