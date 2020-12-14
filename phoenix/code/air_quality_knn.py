@@ -179,7 +179,7 @@ def verify_location(coordinates):
         None. This function simply raises warnings then passes.
 
     Warnings:
-        'Coordinate not in Oregon': 
+        'Coordinate not in Oregon':
             If any gps coordinates in the data do not fall
             within the predetermined (lat,long) extremes of Oregon.
     """
