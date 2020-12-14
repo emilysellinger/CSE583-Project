@@ -79,7 +79,7 @@ class Testairqualityknn(unittest.TestCase):
         bad_location_birds = self.bird_data_example[['latitude', 'longitude']]
         bad_location_birds.at[0, 'latitude'] = 30
 
-        with self.assertRaises(ValueError):
+        with self.assertWarns(Warning):
             knn.verify_location(bad_location_birds)
 
     def test_invalid_input_order(self):

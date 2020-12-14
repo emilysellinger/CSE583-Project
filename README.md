@@ -8,7 +8,7 @@ Phoenix offers an introductory exploration of how air quality surrounding the 20
 
 As 2020 highlighted, larger wildfires and longer fire seasons are increasingly likely in the Western U.S. under climate change. While the direct effects of fire are apparent, the secondary effect of smoke on avian ecology is somewhat elusive. In general, birds tend to be very susceptible to air contamination and are highly mobile. Paired with a constantly shifting distribution of air particles, this makes for a spatially and temporally difficult interaction to study. Using detailed citizen scientist data from eBird and air quality data from the Oregon Department of Environmental Quality, Phoenix is a first step in examining this dynamic. 
 
-Phoenix presents an initial analysis of bird sightings (segmented by species, family, or class) against PM2.5 air quality levels for researchers and those familiar with statistical analyses. Additionally, Phoenix prioritizes scientific communication and community engagement: it includes a visualization mapping tool to be accessed by recreational birders. If made widely available as an interactive map on a website, birders will be able to use this information to gain a better understanding of how to adjust their practices and get the most out of their experience.
+Phoenix presents an initial analysis of bird sightings (segmented by species, family, class) against PM2.5 air quality levels for researchers and those familiar with statistical analyses. Additionally, Phoenix prioritizes scientific communication and community engagement: it includes a visualization mapping tool to be accessed by recreational birders. If made widely available as an interactive map on a website, birders will be able to use this information to gain a better understanding of how to adjust their practices and get the most out of their experience.
 
 ## Organization
 The project has the following structure:
@@ -55,7 +55,7 @@ Next, you will need to have all of the software dependencies needed for `Phoenix
 <pre>conda env create -f environment.yml</pre>
 
 To begin using this environment, activate it with
-<pre>conda activate project_CSE583</pre>
+<pre>conda activate project_CSE</pre>
 
 ## How to Use Phoenix
 Researchers should look to our demo jupyter notebook, where you can find a more detailed description of our analysis, as well as accompanying visualizations.Phoenix uses Altair for statistical visualizations, the code for which can be easily adapted for future research.

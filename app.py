@@ -1,7 +1,6 @@
 """
 This module encodes a dash app for non-experts to examine
 patterns in bird sightings and air quality in Oregon.
-
 """
 
 # Run this app with `python app.py` and
@@ -149,7 +148,6 @@ def update_aq_graph(species, month, day_slider):
     Creates an air quality choropleth map depending on the species,
     month, and day selected in the app. Bird sightings for selected
     species are plotted as a scatter plot over air quality choropleth.
-
     Args:
         species(str): common name selected from dropdown
         month(str): name of month selected from dropdown
@@ -216,7 +214,6 @@ def display_date_aq(month, day_slider):
 def update_count_graph(county_name):
     """
     Displays a chart with the counts of birds by species for selected county.
-
     Args:
         county_name (str): selected county from dropdown
     Returns:

@@ -71,7 +71,7 @@ def air_quality_knn(air_quality, ebd_data):
     # More informatively, verify correct input order and raise
     # exception if they might be switched or have incorrect
     # column names. (Just using two important ones as indicators)
-    categ_in_air = 'Category' in air_quality
+    categ_in_air = 'Date' in air_quality
     tax_in_birds = 'taxonomic order' in ebd_data
 
     if not categ_in_air or not tax_in_birds:
@@ -176,20 +176,23 @@ def verify_location(coordinates):
             one for latitude, the other for longitude.
 
     Returns:
-        None. If an error is not raised, this function simply passes.
+        None. This function simply raises warnings then passes.
 
-    Raises:
-        ValueError: If any gps coordinates in the data do not fall
+    Warnings:
+        'Coordinate not in Oregon':
+            If any gps coordinates in the data do not fall
             within the predetermined (lat,long) extremes of Oregon.
     """
+
     coordinates.columns = coordinates.columns.str.lower()
 
     # Verify that all air quality locations are (roughly) within Oregon
     for ind in coordinates.index:
+
         lat = coordinates.at[ind, 'latitude']
         long = coordinates.at[ind, 'longitude']
 
-        if 42 <= lat <= 46.3 and -124.57 <= long <= -116.47:
+        if (40 <= lat <= 47) and (-125 <= long <= -115):
             pass
         else:
-            raise ValueError(f"GPS coordinate at index {ind} not in Oregon")
+            warnings.warn(f"Coordinate not in Oregon at index: {ind}")
