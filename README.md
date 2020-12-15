@@ -1,6 +1,6 @@
 ### Ocean's 4 Capstone CSE583 Project
 # Phoenix 
-[![Build Status](https://travis-ci.org/emilysellinger/Phoenix.svg?branch=main)](https://travis-ci.org/emilysellinger/Phoenix) [![Coverage Status](https://coveralls.io/repos/github/emilysellinger/Phoenix/badge.svg?branch=main)](https://coveralls.io/github/emilysellinger/Phoenix?branch=main)
+[![Build Status](https://travis-ci.org/emilysellinger/Phoenix.github.io.svg?branch=main)](https://travis-ci.org/emilysellinger/Phoenix.github.io) [![Coverage Status](https://coveralls.io/repos/github/emilysellinger/Phoenix/badge.svg?branch=main)](https://coveralls.io/github/emilysellinger/Phoenix?branch=main)
 
 ## An investigation into the impact of air quality on bird observation counts
 
