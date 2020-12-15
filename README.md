@@ -25,8 +25,7 @@ The project has the following structure:
         |- shortened_bird_data.csv
      |- demos/
         |- Dash_App_Demo.mp4
-        |- Researcher_Demo_Altair_Visualizations.ipynb
-        |- Researcher_Demo_Data_Cleaning.ipynb
+        |- Researcher_Demo.ipynb
      |- code/
         |- air_quality_knn.py
         |- app.py
