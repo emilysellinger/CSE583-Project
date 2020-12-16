@@ -9,6 +9,7 @@ import pandas as pd
 
 import phoenix.code.data_cleaning as dc
 
+
 class TestDataCleaning(unittest.TestCase):
     """
     Contains test cases for data cleaning.
