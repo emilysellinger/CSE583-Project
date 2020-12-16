@@ -13,7 +13,7 @@ As 2020 highlighted, larger wildfires and longer fire seasons are increasingly l
 Phoenix presents an initial analysis of bird sightings (segmented by species, family, class) against PM2.5 air quality levels for researchers and those familiar with statistical analyses. Additionally, Phoenix prioritizes scientific communication and community engagement: it includes a visualization mapping tool to be accessed by recreational birders. If made widely available as an interactive map on a website, birders will be able to use this information to gain a better understanding of how to adjust their practices and get the most out of their experience.
 
 ## Organization
-This repository contains several different integrations that each require certain files and structures. Our app, for example, is hosted by Heroku and is required to be labeled 'app.py' in the main. Additionally, the github website requires a 'doc' directory to format the website, which is distinct from our project documentation, labeled 'documentation'. The rest of our code and data can be found in 'phoenix', which retains a conventional format.
+This repository contains several different integrations that each require certain files and structures. Our app, for example, is hosted by Heroku and is required to be in the main with `requirements.txt` and `Procfile`. Additionally, the github website requires a 'doc' directory to format the website, which is distinct from our project documentation, labeled 'documentation'. The rest of our code and data can be found in 'phoenix', which retains a conventional format.
 
 The project has the following structure:
 <pre>Phoenix/
@@ -46,6 +46,10 @@ The project has the following structure:
      |- FunctionalSpecification.md
      |- TechnologyReview.pdf
      |- Presentation.pdf
+     |- appscreenshot1.png
+     |- appscreenshot2.png
+     |- appscreenshot3.png
+     |- compspec.png
   |- docs/
      |- index.html
      |- logo.png
