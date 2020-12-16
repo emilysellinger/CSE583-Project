@@ -53,7 +53,6 @@ The interactive visualizations created through plotly will be organized into a d
 Python packages used:
 - Dash
 
-
 **Researcher Visualizations (phoenix/demos/Researcher_Demo.ipynb)**  
 We use a Jupyter Notebook to complete some basic statistical analyses that might be interesting to an ecologist or biologist interested in how bird sightings changed with the Oregon wildfires in 2020. This notebook contains:
 - Visualizations of relationships between air quality and observation counts
@@ -65,6 +64,8 @@ Python packages used:
 - Altair
 - Pandas
 - SciPy Stats
+
+![alt text](https://raw.githubusercontent.com/emilysellinger/Phoenix.github.io/main/documentation/compspec.png)
 
 ## Interactions
 
