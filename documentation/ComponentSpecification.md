@@ -63,6 +63,8 @@ We use a Jupyter Notebook to complete some basic statistical analyses that might
 Python packages used:
 - Jupyter Notebook
 - Altair
+- Pandas
+- SciPy Stats
 
 ## Interactions
 
