@@ -4,9 +4,10 @@ Unittests for functions to add categorical AQI assignment to air quality data.
 
 # Import packages
 import unittest
-import phoenix.code.data_cleaning as dc
+
 import pandas as pd
 
+import phoenix.code.data_cleaning as dc
 
 class TestDataCleaning(unittest.TestCase):
     """

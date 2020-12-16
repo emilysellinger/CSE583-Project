@@ -6,11 +6,14 @@ Functions:
     assign_aqicat(data)
 '''
 
-# Import packages and air quality and county data
+# Import packages
 import pandas as pd
-air_quality = pd.read_csv("../data/Daily_Avg_PM2.5_Location.csv")
+
+# import air quality and county data
+
+air_quality = pd.read_csv("https://raw.githubusercontent.com/emilysellinger/Phoenix.github.io/main/phoenix/data/Daily_Avg_PM2.5_Location.csv")  # noqa
 air_quality.head()
-station_counties = pd.read_csv("../data/ORAQ_StationCounties.csv")
+station_counties = pd.read_csv("https://raw.githubusercontent.com/emilysellinger/Phoenix.github.io/main/phoenix/data/ORAQ_StationCounties.csv")  # noqa
 station_counties.head()
 
 # Assign county values to air quality station readings by shared name
@@ -68,6 +71,9 @@ def assign_aqicat(data):
         Returns:
                 data (array): Dataframe with AQI ratings appended as new column
     '''
+    if data['Avg_PM2.5'].dtype != 'float64':
+        raise ValueError("Provided PM 2.5 ratings are not floating point values")
+
     aqi_cat = []
 
     for row in data['Avg_PM2.5']:
@@ -89,7 +95,7 @@ def assign_aqicat(data):
     return data
 
 
-# Use assign_aqicat function to append AQI categories
-# to county daily PM2.5 dataframe.
-assign_aqicat(or_counties)
-or_counties.to_csv("../data/OR_DailyAQ_byCounty.csv")
+# Can use the following code to append AQI categories
+# to county daily PM2.5 dataframe and download that dataframe as csv.
+# assign_aqicat(or_counties)
+# or_counties.to_csv("../data/OR_DailyAQ_byCounty.csv")
